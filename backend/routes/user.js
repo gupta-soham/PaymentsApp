@@ -18,6 +18,30 @@ const signupSchema = zod.object({
 
 // app.use("/api/v1/user", userRouter);
 
+router.get("/me", authMiddleware, async (req, res) => {
+    const userId = req.userId;
+    if(!userId)
+        return res.status(403).json({
+            message: "User not found"
+        })
+
+    const userDetails = await User.findById(userId);
+    const accountDetails = await Account.findOne({
+        userId: userId,
+    });
+    res.json({
+        id: userDetails._id,
+        user: {
+            firstName: userDetails.firstName,
+            lastName: userDetails.lastName,
+            username: userDetails.username
+        },
+        account: {
+            balance: accountDetails.balance
+        }
+    })
+})
+
 router.post("/signup", async (req,res) => {
     const { success } = signupSchema.safeParse(req.body)
     if (!success) {
@@ -68,7 +92,7 @@ router.post("/signin", async (req, res) => {
     const { success } = signinBody.safeParse(req.body)
     if (!success) {
         return res.status(411).json({
-            message: "Email already taken / Incorrect inputs"
+            message: "Incorrect inputs"
         })
     }
 
@@ -128,11 +152,13 @@ router.get("/bulk", async (req,res) => {
 
         $or: [{
             firstName: {
-                "$regex": filter
+                "$regex": filter,
+                "$options": "i" // For case insensitive search/filter
             }
         }, {
             lastName: {
-                "$regex": filter
+                "$regex": filter,
+                "$options": "i"
             }
         }]
     })
