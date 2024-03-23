@@ -51,6 +51,13 @@ router.post("/transfer", authMiddleware, async (req, res) => {
         });
    }
 
+   if(account.toString() === toAccount.toString()) {
+      await session.abortTransaction();
+        return res.status(400).json({
+            message: "Cannot Transfer to same account!"
+        });
+   }
+
    // Perform the transaction
    await Account.updateOne({ userId: req.userId }, { $inc: {balance: -amount} }).session(session);
 
@@ -58,7 +65,7 @@ router.post("/transfer", authMiddleware, async (req, res) => {
 
    // Commit the transaction
    await session.commitTransaction();
-   res.json({
+   res.status(200).json({
       message: "Transfer Successful!"
    })
 
