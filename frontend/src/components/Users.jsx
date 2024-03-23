@@ -8,14 +8,20 @@ export const Users = () => {
     const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState("");
 
-    // Add debouncing
+    // Added Debouncing 👇
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/v1/user/bulk?filter=${filter}`, {
-            
-        })
-            .then(response => {
-                setUsers(response.data.user)
+        let timer = setTimeout(() => getUsers(), 300);
+
+        function getUsers() {
+            axios.get(`http://localhost:3000/api/v1/user/bulk?filter=${filter}`, {
+                
             })
+                .then(response => {
+                    setUsers(response.data.user)
+                })
+        }
+
+        return () => clearTimeout(timer);
     }, [filter]);
 
     return <>
