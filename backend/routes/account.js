@@ -51,7 +51,7 @@ router.post("/transfer", authMiddleware, async (req, res) => {
         });
    }
 
-   if(account.toString() === toAccount.toString()) {
+   if(account.userId.toString() === toAccount.userId.toString()) {
       await session.abortTransaction();
         return res.status(400).json({
             message: "Cannot Transfer to same account!"
