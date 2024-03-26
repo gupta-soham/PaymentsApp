@@ -13,7 +13,7 @@ export const Users = () => {
         let timer = setTimeout(() => getUsers(), 300);
 
         function getUsers() {
-            axios.get(`http://localhost:3000/api/v1/user/bulk?filter=${filter}`, {
+            axios.get(`${import.meta.env.VITE_BE_API}/api/v1/user/bulk?filter=${filter}`, {
                 
             })
                 .then(response => {

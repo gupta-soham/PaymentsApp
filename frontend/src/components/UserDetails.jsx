@@ -7,7 +7,7 @@ export const UserDetails = () => {
 
     async function getDetails() {
         try {
-            const res = await axios.get("http://localhost:3000/api/v1/user/me", {
+            const res = await axios.get(import.meta.env.VITE_BE_API  + "/api/v1/user/me", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
