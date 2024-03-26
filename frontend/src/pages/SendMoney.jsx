@@ -58,9 +58,15 @@ export const SendMoney = () => {
                                 navigate("/dashboard");
                             }
                         } catch (error) {
-                            alert('Failed to initiate transfer. Redirecting to dashboard...');
-                            navigate("/dashboard");
-                            console.error('Error:', error);
+                            if(error.response && error.response.status === 411) {
+                                alert('Self transfer not allowed! Redirecting to dashboard...');
+                                navigate("/dashboard");
+                            }
+                            else {
+                                alert('Failed to initiate transfer. Redirecting to dashboard...');
+                                navigate("/dashboard");
+                                console.error('Error:', error.status);
+                            }
                         }
                     }} className="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white">
                         Initiate Transfer of ₹{amount}

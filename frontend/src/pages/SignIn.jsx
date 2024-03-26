@@ -30,18 +30,23 @@ export const SignIn = () => {
         <SubHeading label={"Enter your credentials to access your account"} />
         <InputBox onChange={(e) => {
           setUsername(e.target.value);
-        }} placeholder="example@gmail.com" label={"Email"} />
+        }} placeholder="example@gmail.com" label={"Email"} type="email" />
         <InputBox onChange={(e) => {
           setPassword(e.target.value);
-        }} placeholder="p@$sw0rD" label={"Password"} />
+        }} placeholder="p@$sw0rD" label={"Password"} type="password" />
         <div className="pt-4">
           <Button label={"Sign in"} onClick={async () => {
-            const response = await axios.post("http://localhost:3000/api/v1/user/signin", {
-                username,
-                password
-            }); 
-            localStorage.setItem("token", response.data.token);
-            navigate("/dashboard");
+            try {
+              const response = await axios.post("http://localhost:3000/api/v1/user/signin", {
+                  username,
+                  password
+              }); 
+              localStorage.setItem("token", response.data.token);
+              navigate("/dashboard");
+            }
+            catch (e) {
+                alert("Incorrect Inputs");
+            }
           }}/>
         </div>
         <BottomComp label={"Don't have an account?"} buttonText={"Sign up"} to={"/signup"} />
