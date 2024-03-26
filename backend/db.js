@@ -1,7 +1,7 @@
 // import mongoose, { model } from 'mongoose';
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb+srv://{username}:{password}@cluster0.akf5gyy.mongodb.net/paymentsApp");
+mongoose.connect(process.env.DB_URI);
 
 const UserSchema = new mongoose.Schema({
     username: {
