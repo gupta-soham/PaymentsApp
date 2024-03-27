@@ -7,6 +7,7 @@ import { SubHeading } from "../components/SubHeading"
 import { UserDetails } from "../components/UserDetails"
 import { Navigate, useNavigate } from "react-router-dom"
 import axios from "axios"
+import TerminalLoader from "../components/TerminalLoader"
 
 export const SignIn = () => {
 
@@ -16,7 +17,7 @@ export const SignIn = () => {
 
   const user = UserDetails();
   if(user.loading) {
-      return ;
+      return <TerminalLoader />;
   }
 
   if(user.userDetails) {

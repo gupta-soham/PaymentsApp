@@ -7,6 +7,7 @@ import { SubHeading } from "../components/SubHeading"
 import axios from "axios"; 
 import { useNavigate, Navigate } from "react-router-dom"
 import { UserDetails } from "../components/UserDetails"
+import TerminalLoader from "../components/TerminalLoader"
 
 export const SignUp = () => {
   const [ firstName, setFirstName ] = useState("");
@@ -17,7 +18,7 @@ export const SignUp = () => {
   const navigate = useNavigate();
     const user = UserDetails();
     if(user.loading) {
-        return ;
+        return <TerminalLoader />;
     }
 
     if(user.userDetails) {
